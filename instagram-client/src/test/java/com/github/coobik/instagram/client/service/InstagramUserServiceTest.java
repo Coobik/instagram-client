@@ -9,8 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.coobik.instagram.client.config.InstagramClientTestConfig;
+import com.github.coobik.instagram.client.config.InstagramClientTestHelper;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.User;
@@ -26,7 +26,7 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 	private InstagramClientTestConfig instagramClientTestConfig;
 
 	@Autowired
-	private ObjectMapper objectMapper;
+	private InstagramClientTestHelper testHelper;
 
 	@Test(enabled = true)
 	public void testGetOwner() throws JsonProcessingException {
@@ -38,7 +38,7 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 		User owner = ownerEnvelope.getData();
 		Assert.assertNotNull(owner);
 
-		printJson(ownerEnvelope);
+		testHelper.printJson(ownerEnvelope);
 
 		Envelope<User> userEnvelope = instagramUserService.getUser(accessToken, owner.getId());
 		Assert.assertNotNull(userEnvelope);
@@ -46,7 +46,7 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listMedia(accessToken, owner.getId());
 		Assert.assertNotNull(listMediaEnvelope);
 
-		printJson(listMediaEnvelope);
+		testHelper.printJson(listMediaEnvelope);
 	}
 
 	@Test(enabled = true)
@@ -56,17 +56,36 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listOwnerMedia(accessToken);
 		Assert.assertNotNull(listMediaEnvelope);
 
-		printJson(listMediaEnvelope);
+		testHelper.printJson(listMediaEnvelope);
 
 		listMediaEnvelope = instagramUserService.listOwnerLikedMedia(accessToken);
 		Assert.assertNotNull(listMediaEnvelope);
 
-		printJson(listMediaEnvelope);
+		testHelper.printJson(listMediaEnvelope);
 	}
 
-	private void printJson(Object entity) throws JsonProcessingException {
-		String json = objectMapper.writeValueAsString(entity);
-		System.out.println(json);
+	@Test(enabled = true)
+	public void testListFollowers() throws JsonProcessingException {
+		String accessToken = instagramClientTestConfig.getAccessToken();
+
+		checkFollowedUsers(accessToken);
+		checkFollowers(accessToken);
+	}
+
+	private void checkFollowedUsers(String accessToken) throws JsonProcessingException {
+		Envelope<List<User>> usersListEnvelope = instagramUserService.listFollowedUsers(accessToken);
+		Assert.assertNotNull(usersListEnvelope);
+		Assert.assertNotNull(usersListEnvelope.getData());
+
+		testHelper.printJson(usersListEnvelope);
+	}
+
+	private void checkFollowers(String accessToken) throws JsonProcessingException {
+		Envelope<List<User>> usersListEnvelope = instagramUserService.listFollowers(accessToken);
+		Assert.assertNotNull(usersListEnvelope);
+		Assert.assertNotNull(usersListEnvelope.getData());
+
+		testHelper.printJson(usersListEnvelope);
 	}
 
 }

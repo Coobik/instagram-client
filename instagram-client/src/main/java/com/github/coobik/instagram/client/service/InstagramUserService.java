@@ -19,6 +19,8 @@ public class InstagramUserService {
 	private static final String PATH_USERS_ID = "users/{user_id}";
 	private static final String PATH_USERS_ID_MEDIA_RECENT = PATH_USERS_ID + "/media/recent";
 	private static final String PATH_USERS_ID_MEDIA_LIKED = PATH_USERS_ID + "/media/liked";
+	private static final String PATH_USERS_ID_FOLLOWS = PATH_USERS_ID + "/follows";
+	private static final String PATH_USERS_ID_FOLLOWED_BY = PATH_USERS_ID + "/followed-by";
 
 	private static final String USER_SELF = "self";
 
@@ -68,6 +70,26 @@ public class InstagramUserService {
 				restClient.getObject(accessToken, PATH_USERS_ID_MEDIA_LIKED, null, TYPE_MEDIA_LIST, USER_SELF);
 
 		return mediaListEnvelope;
+	}
+
+	public Envelope<List<User>> listFollowedUsers(String accessToken) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+
+		Envelope<List<User>> usersListEnvelope =
+				restClient.getObject(
+						accessToken, PATH_USERS_ID_FOLLOWS, null, TypeReference.TYPE_USERS_LIST, USER_SELF);
+
+		return usersListEnvelope;
+	}
+
+	public Envelope<List<User>> listFollowers(String accessToken) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+
+		Envelope<List<User>> usersListEnvelope =
+				restClient.getObject(
+						accessToken, PATH_USERS_ID_FOLLOWED_BY, null, TypeReference.TYPE_USERS_LIST, USER_SELF);
+
+		return usersListEnvelope;
 	}
 
 }
