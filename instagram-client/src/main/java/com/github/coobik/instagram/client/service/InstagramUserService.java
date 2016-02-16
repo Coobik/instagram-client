@@ -28,10 +28,6 @@ public class InstagramUserService {
 			new ParameterizedTypeReference<Envelope<User>>() {
 			};
 
-	private static final ParameterizedTypeReference<Envelope<List<Media>>> TYPE_MEDIA_LIST =
-			new ParameterizedTypeReference<Envelope<List<Media>>>() {
-			};
-
 	@Autowired
 	private InstagramRestClient restClient;
 
@@ -58,7 +54,8 @@ public class InstagramUserService {
 		Preconditions.checkArgument(StringUtils.isNotBlank(userId), "userId");
 
 		Envelope<List<Media>> mediaListEnvelope =
-				restClient.getObject(accessToken, PATH_USERS_ID_MEDIA_RECENT, null, TYPE_MEDIA_LIST, userId);
+				restClient.getObject(
+						accessToken, PATH_USERS_ID_MEDIA_RECENT, null, TypeReference.TYPE_MEDIA_LIST, userId);
 
 		return mediaListEnvelope;
 	}
@@ -67,7 +64,8 @@ public class InstagramUserService {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 
 		Envelope<List<Media>> mediaListEnvelope =
-				restClient.getObject(accessToken, PATH_USERS_ID_MEDIA_LIKED, null, TYPE_MEDIA_LIST, USER_SELF);
+				restClient.getObject(
+						accessToken, PATH_USERS_ID_MEDIA_LIKED, null, TypeReference.TYPE_MEDIA_LIST, USER_SELF);
 
 		return mediaListEnvelope;
 	}
