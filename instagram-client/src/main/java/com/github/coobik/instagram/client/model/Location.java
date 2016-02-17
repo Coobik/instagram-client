@@ -6,12 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Location {
+public class Location extends InstagramEntity {
 
 	private BigDecimal latitude;
 	private BigDecimal longitude;
-
-	private String id;
 
 	@JsonProperty("street_address")
 	private String streetAddress;
@@ -32,14 +30,6 @@ public class Location {
 
 	public void setLongitude(BigDecimal longitude) {
 		this.longitude = longitude;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getStreetAddress() {
