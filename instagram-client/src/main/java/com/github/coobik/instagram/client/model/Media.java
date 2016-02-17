@@ -10,8 +10,8 @@ public class Media {
 
 	private String id;
 
-	private Count comments;
-	private Count likes;
+	private Count<Comment> comments;
+	private Count<User> likes;
 
 	private Caption caption;
 
@@ -49,19 +49,19 @@ public class Media {
 		this.id = id;
 	}
 
-	public Count getComments() {
+	public Count<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(Count comments) {
+	public void setComments(Count<Comment> comments) {
 		this.comments = comments;
 	}
 
-	public Count getLikes() {
+	public Count<User> getLikes() {
 		return likes;
 	}
 
-	public void setLikes(Count likes) {
+	public void setLikes(Count<User> likes) {
 		this.likes = likes;
 	}
 

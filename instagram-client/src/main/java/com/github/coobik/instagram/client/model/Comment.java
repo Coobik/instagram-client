@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Comment {
-
-	private String id;
+public class Comment extends InstagramEntity {
 
 	@JsonProperty("created_time")
 	private String createdTime;
@@ -14,14 +12,6 @@ public class Comment {
 	private String text;
 
 	private User from;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getCreatedTime() {
 		return createdTime;
