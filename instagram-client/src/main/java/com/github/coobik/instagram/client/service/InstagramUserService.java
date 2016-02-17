@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
+import com.github.coobik.instagram.client.model.Relationship;
 import com.github.coobik.instagram.client.model.User;
 import com.github.coobik.instagram.client.rest.InstagramRestClient;
 import com.google.common.base.Preconditions;
@@ -21,6 +22,7 @@ public class InstagramUserService {
 	private static final String PATH_USERS_ID_MEDIA_LIKED = PATH_USERS_ID + "/media/liked";
 	private static final String PATH_USERS_ID_FOLLOWS = PATH_USERS_ID + "/follows";
 	private static final String PATH_USERS_ID_FOLLOWED_BY = PATH_USERS_ID + "/followed-by";
+	private static final String PATH_USERS_ID_RELATIONSHIP = PATH_USERS_ID + "/relationship";
 
 	private static final String USER_SELF = "self";
 
@@ -88,6 +90,17 @@ public class InstagramUserService {
 						accessToken, PATH_USERS_ID_FOLLOWED_BY, null, TypeReference.TYPE_USERS_LIST, USER_SELF);
 
 		return usersListEnvelope;
+	}
+
+	public Envelope<Relationship> getRelationship(String accessToken, String userId) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+		Preconditions.checkArgument(StringUtils.isNotBlank(userId), "userId");
+
+		Envelope<Relationship> relationshipEnvelope =
+				restClient.getObject(
+						accessToken, PATH_USERS_ID_RELATIONSHIP, null, TypeReference.TYPE_RELATIONSHIP, userId);
+
+		return relationshipEnvelope;
 	}
 
 }

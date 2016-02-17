@@ -13,11 +13,14 @@ import com.github.coobik.instagram.client.config.InstagramClientTestConfig;
 import com.github.coobik.instagram.client.config.InstagramClientTestHelper;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
+import com.github.coobik.instagram.client.model.Relationship;
 import com.github.coobik.instagram.client.model.User;
 
 @Test(enabled = true)
 @ContextConfiguration(classes = InstagramClientTestConfig.class)
 public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
+
+	private static final String INSTAGRAM_USER_ID = "25025320";
 
 	@Autowired
 	private InstagramUserService instagramUserService;
@@ -86,6 +89,16 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(usersListEnvelope.getData());
 
 		testHelper.printJson(usersListEnvelope);
+	}
+
+	@Test(enabled = true)
+	public void testRelationship() throws JsonProcessingException {
+		Envelope<Relationship> relationshipEnvelope =
+				instagramUserService.getRelationship(instagramClientTestConfig.getAccessToken(), INSTAGRAM_USER_ID);
+		Assert.assertNotNull(relationshipEnvelope);
+		Assert.assertNotNull(relationshipEnvelope.getData());
+
+		testHelper.printJson(relationshipEnvelope);
 	}
 
 }

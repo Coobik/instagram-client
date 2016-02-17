@@ -7,6 +7,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Location;
 import com.github.coobik.instagram.client.model.Media;
+import com.github.coobik.instagram.client.model.Relationship;
 import com.github.coobik.instagram.client.model.User;
 
 public final class TypeReference {
@@ -21,6 +22,10 @@ public final class TypeReference {
 
 	public static final ParameterizedTypeReference<Envelope<Location>> TYPE_LOCATION =
 			new ParameterizedTypeReference<Envelope<Location>>() {
+			};
+
+	public static final ParameterizedTypeReference<Envelope<Relationship>> TYPE_RELATIONSHIP =
+			new ParameterizedTypeReference<Envelope<Relationship>>() {
 			};
 
 	private TypeReference() {
