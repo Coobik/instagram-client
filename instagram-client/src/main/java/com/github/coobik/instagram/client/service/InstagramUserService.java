@@ -76,22 +76,30 @@ public class InstagramUserService {
 		return mediaListEnvelope;
 	}
 
-	public Envelope<List<User>> listFollowedUsers(String accessToken) {
+	public Envelope<List<User>> listOwnerFollowedUsers(String accessToken) {
+		return listFollowedUsers(accessToken, USER_SELF);
+	}
+
+	public Envelope<List<User>> listFollowedUsers(String accessToken, String userId) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 
 		Envelope<List<User>> usersListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_USERS_ID_FOLLOWS, null, TypeReference.TYPE_USERS_LIST, USER_SELF);
+						accessToken, PATH_USERS_ID_FOLLOWS, null, TypeReference.TYPE_USERS_LIST, userId);
 
 		return usersListEnvelope;
 	}
 
-	public Envelope<List<User>> listFollowers(String accessToken) {
+	public Envelope<List<User>> listOwnerFollowers(String accessToken) {
+		return listFollowers(accessToken, USER_SELF);
+	}
+
+	public Envelope<List<User>> listFollowers(String accessToken, String userId) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 
 		Envelope<List<User>> usersListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_USERS_ID_FOLLOWED_BY, null, TypeReference.TYPE_USERS_LIST, USER_SELF);
+						accessToken, PATH_USERS_ID_FOLLOWED_BY, null, TypeReference.TYPE_USERS_LIST, userId);
 
 		return usersListEnvelope;
 	}
