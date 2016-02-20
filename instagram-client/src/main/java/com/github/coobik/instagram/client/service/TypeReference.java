@@ -8,6 +8,7 @@ import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Location;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.Relationship;
+import com.github.coobik.instagram.client.model.Tag;
 import com.github.coobik.instagram.client.model.User;
 
 public final class TypeReference {
@@ -26,6 +27,14 @@ public final class TypeReference {
 
 	public static final ParameterizedTypeReference<Envelope<Relationship>> TYPE_RELATIONSHIP =
 			new ParameterizedTypeReference<Envelope<Relationship>>() {
+			};
+
+	public static final ParameterizedTypeReference<Envelope<List<Tag>>> TYPE_TAGS_LIST =
+			new ParameterizedTypeReference<Envelope<List<Tag>>>() {
+			};
+
+	public static final ParameterizedTypeReference<Envelope<List<Location>>> TYPE_LOCATIONS_LIST =
+			new ParameterizedTypeReference<Envelope<List<Location>>>() {
 			};
 
 	private TypeReference() {

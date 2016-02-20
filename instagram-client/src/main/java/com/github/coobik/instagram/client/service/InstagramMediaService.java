@@ -11,6 +11,7 @@ import com.github.coobik.instagram.client.model.Comment;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.User;
+import com.github.coobik.instagram.client.query.GeoParameters;
 import com.github.coobik.instagram.client.rest.InstagramRestClient;
 import com.google.common.base.Preconditions;
 
@@ -20,6 +21,7 @@ public class InstagramMediaService {
 	private static final String PATH_MEDIA_ID = "media/{media_id}";
 	private static final String PATH_MEDIA_COMMENTS = PATH_MEDIA_ID + "/comments";
 	private static final String PATH_MEDIA_LIKES = PATH_MEDIA_ID + "/likes";
+	private static final String PATH_MEDIA_SEARCH = "media/search";
 
 	private static final ParameterizedTypeReference<Envelope<Media>> TYPE_MEDIA =
 			new ParameterizedTypeReference<Envelope<Media>>() {
@@ -60,6 +62,17 @@ public class InstagramMediaService {
 				restClient.getObject(accessToken, PATH_MEDIA_LIKES, null, TypeReference.TYPE_USERS_LIST, mediaId);
 
 		return usersListEnvelope;
+	}
+
+	public Envelope<List<Media>> searchMedia(String accessToken, GeoParameters parameters) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+		Preconditions.checkNotNull(parameters, "parameters");
+
+		Envelope<List<Media>> mediaListEnvelope =
+				restClient.getObject(
+						accessToken, PATH_MEDIA_SEARCH, parameters, TypeReference.TYPE_MEDIA_LIST);
+
+		return mediaListEnvelope;
 	}
 
 }

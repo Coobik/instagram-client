@@ -15,11 +15,13 @@ import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.Relationship;
 import com.github.coobik.instagram.client.model.User;
+import com.github.coobik.instagram.client.query.SearchParameters;
 
 @Test(enabled = true)
 @ContextConfiguration(classes = InstagramClientTestConfig.class)
 public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 
+	private static final String INSTAGRAM_USER_NAME = "instagram";
 	private static final String INSTAGRAM_USER_ID = "25025320";
 
 	@Autowired
@@ -46,7 +48,7 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 		Envelope<User> userEnvelope = instagramUserService.getUser(accessToken, owner.getId());
 		Assert.assertNotNull(userEnvelope);
 
-		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listMedia(accessToken, owner.getId());
+		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listMedia(accessToken, owner.getId(), null);
 		Assert.assertNotNull(listMediaEnvelope);
 
 		testHelper.printJson(listMediaEnvelope);
@@ -56,12 +58,12 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 	public void testListOwnerMedia() throws JsonProcessingException {
 		String accessToken = instagramClientTestConfig.getAccessToken();
 
-		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listOwnerMedia(accessToken);
+		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listOwnerMedia(accessToken, null);
 		Assert.assertNotNull(listMediaEnvelope);
 
 		testHelper.printJson(listMediaEnvelope);
 
-		listMediaEnvelope = instagramUserService.listOwnerLikedMedia(accessToken);
+		listMediaEnvelope = instagramUserService.listOwnerLikedMedia(accessToken, null);
 		Assert.assertNotNull(listMediaEnvelope);
 
 		testHelper.printJson(listMediaEnvelope);
@@ -99,6 +101,22 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(relationshipEnvelope.getData());
 
 		testHelper.printJson(relationshipEnvelope);
+	}
+
+	@Test(enabled = true)
+	public void testSearchUsers() throws JsonProcessingException {
+		int count = 10;
+		SearchParameters parameters = new SearchParameters(count, INSTAGRAM_USER_NAME);
+		Envelope<List<User>> usersListEnvelope =
+				instagramUserService.searchUsers(instagramClientTestConfig.getAccessToken(), parameters);
+		Assert.assertNotNull(usersListEnvelope);
+
+		List<User> users = usersListEnvelope.getData();
+		Assert.assertNotNull(users);
+		System.out.println("users loaded: " + users.size());
+		Assert.assertTrue(users.size() <= count);
+
+		testHelper.printJson(usersListEnvelope);
 	}
 
 }

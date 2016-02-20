@@ -16,6 +16,7 @@ import com.github.coobik.instagram.client.model.Comment;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.User;
+import com.github.coobik.instagram.client.query.GeoParameters;
 
 @Test(enabled = true)
 @ContextConfiguration(classes = InstagramClientTestConfig.class)
@@ -80,9 +81,27 @@ public class InstagramMediaServiceTest extends AbstractTestNGSpringContextTests 
 	}
 
 	private List<Media> listOwnerMedia(String accessToken) {
-		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listOwnerMedia(accessToken);
+		Envelope<List<Media>> listMediaEnvelope = instagramUserService.listOwnerMedia(accessToken, null);
 		List<Media> mediaList = listMediaEnvelope.getData();
 		return mediaList;
+	}
+
+	@Test(enabled = true)
+	public void testSearchMedia() throws JsonProcessingException {
+		double latitude = 46.4667;
+		double longitude = 30.7333;
+		int distanceMeters = 5000;
+
+		GeoParameters parameters = new GeoParameters(latitude, longitude, distanceMeters);
+		// parameters.setCount(2);
+
+		Envelope<List<Media>> mediaListEnvelope =
+				mediaService.searchMedia(instagramClientTestConfig.getAccessToken(), parameters);
+
+		Assert.assertNotNull(mediaListEnvelope);
+		Assert.assertNotNull(mediaListEnvelope.getData());
+
+		testHelper.printJson(mediaListEnvelope);
 	}
 
 }

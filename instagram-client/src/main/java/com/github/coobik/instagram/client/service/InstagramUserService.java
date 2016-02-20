@@ -11,6 +11,9 @@ import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.Relationship;
 import com.github.coobik.instagram.client.model.User;
+import com.github.coobik.instagram.client.query.IdParameters;
+import com.github.coobik.instagram.client.query.LikeParameters;
+import com.github.coobik.instagram.client.query.SearchParameters;
 import com.github.coobik.instagram.client.rest.InstagramRestClient;
 import com.google.common.base.Preconditions;
 
@@ -23,6 +26,7 @@ public class InstagramUserService {
 	private static final String PATH_USERS_ID_FOLLOWS = PATH_USERS_ID + "/follows";
 	private static final String PATH_USERS_ID_FOLLOWED_BY = PATH_USERS_ID + "/followed-by";
 	private static final String PATH_USERS_ID_RELATIONSHIP = PATH_USERS_ID + "/relationship";
+	private static final String PATH_USERS_SEARCH = "users/search";
 
 	private static final String USER_SELF = "self";
 
@@ -47,27 +51,27 @@ public class InstagramUserService {
 		return ownerEnvelope;
 	}
 
-	public Envelope<List<Media>> listOwnerMedia(String accessToken) {
-		return listMedia(accessToken, USER_SELF);
+	public Envelope<List<Media>> listOwnerMedia(String accessToken, IdParameters parameters) {
+		return listMedia(accessToken, USER_SELF, parameters);
 	}
 
-	public Envelope<List<Media>> listMedia(String accessToken, String userId) {
+	public Envelope<List<Media>> listMedia(String accessToken, String userId, IdParameters parameters) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 		Preconditions.checkArgument(StringUtils.isNotBlank(userId), "userId");
 
 		Envelope<List<Media>> mediaListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_USERS_ID_MEDIA_RECENT, null, TypeReference.TYPE_MEDIA_LIST, userId);
+						accessToken, PATH_USERS_ID_MEDIA_RECENT, parameters, TypeReference.TYPE_MEDIA_LIST, userId);
 
 		return mediaListEnvelope;
 	}
 
-	public Envelope<List<Media>> listOwnerLikedMedia(String accessToken) {
+	public Envelope<List<Media>> listOwnerLikedMedia(String accessToken, LikeParameters parameters) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 
 		Envelope<List<Media>> mediaListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_USERS_ID_MEDIA_LIKED, null, TypeReference.TYPE_MEDIA_LIST, USER_SELF);
+						accessToken, PATH_USERS_ID_MEDIA_LIKED, parameters, TypeReference.TYPE_MEDIA_LIST, USER_SELF);
 
 		return mediaListEnvelope;
 	}
@@ -101,6 +105,17 @@ public class InstagramUserService {
 						accessToken, PATH_USERS_ID_RELATIONSHIP, null, TypeReference.TYPE_RELATIONSHIP, userId);
 
 		return relationshipEnvelope;
+	}
+
+	public Envelope<List<User>> searchUsers(String accessToken, SearchParameters parameters) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+		Preconditions.checkNotNull(parameters, "parameters");
+
+		Envelope<List<User>> usersListEnvelope =
+				restClient.getObject(
+						accessToken, PATH_USERS_SEARCH, parameters, TypeReference.TYPE_USERS_LIST);
+
+		return usersListEnvelope;
 	}
 
 }

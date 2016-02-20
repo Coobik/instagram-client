@@ -1,6 +1,5 @@
 package com.github.coobik.instagram.client.rest;
 
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.coobik.instagram.client.model.Envelope;
+import com.github.coobik.instagram.client.query.QueryParameters;
 
 @Component
 public class InstagramRestClient {
+
+	private static final String INSTAGRAM_API_URL = "https://api.instagram.com/v1";
+	private static final String PARAMETER_ACCESS_TOKEN = "access_token";
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -27,13 +30,13 @@ public class InstagramRestClient {
 	private RestTemplate restTemplate;
 
 	public <RESPONSE> Envelope<RESPONSE> getObject(String accessToken, String resource,
-			Map<String, String> parameters,
+			QueryParameters parameters,
 			ParameterizedTypeReference<Envelope<RESPONSE>> responseType, Object... uriVariables) {
 		return exchange(HttpMethod.GET, accessToken, resource, parameters, null, responseType, uriVariables);
 	}
 
 	private <BODY, RESPONSE> Envelope<RESPONSE> exchange(HttpMethod method, String accessToken,
-			String resource, Map<String, String> parameters, BODY body,
+			String resource, QueryParameters parameters, BODY body,
 			ParameterizedTypeReference<Envelope<RESPONSE>> responseType, Object... uriVariables) {
 		HttpEntity<BODY> request = createHttpEntity(body);
 		String url = buildUrl(accessToken, resource, parameters, uriVariables);
@@ -61,16 +64,16 @@ public class InstagramRestClient {
 		return new HttpEntity<BODY>(body, headers);
 	}
 
-	private String buildUrl(String accessToken, String resource, Map<String, String> parameters,
+	private String buildUrl(String accessToken, String resource, QueryParameters parameters,
 			Object... uriVariables) {
 		UriComponentsBuilder builder =
 				UriComponentsBuilder
-						.fromHttpUrl("https://api.instagram.com/v1")
+						.fromHttpUrl(INSTAGRAM_API_URL)
 						.pathSegment(resource)
-						.queryParam("access_token", accessToken);
+						.queryParam(PARAMETER_ACCESS_TOKEN, accessToken);
 
 		if (parameters != null) {
-			for (Entry<String, String> parameterEntry : parameters.entrySet()) {
+			for (Entry<String, String> parameterEntry : parameters.getParameters().entrySet()) {
 				builder.queryParam(parameterEntry.getKey(), parameterEntry.getValue());
 			}
 		}

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.Tag;
+import com.github.coobik.instagram.client.query.SearchParameters;
+import com.github.coobik.instagram.client.query.TagParameters;
 import com.github.coobik.instagram.client.rest.InstagramRestClient;
 import com.google.common.base.Preconditions;
 
@@ -18,6 +20,7 @@ public class InstagramTagService {
 
 	private static final String PATH_TAGS_NAME = "tags/{tag_name}";
 	private static final String PATH_TAGS_NAME_MEDIA_RECENT = PATH_TAGS_NAME + "/media/recent";
+	private static final String PATH_TAGS_SEARCH = "tags/search";
 
 	private static final ParameterizedTypeReference<Envelope<Tag>> TYPE_TAG =
 			new ParameterizedTypeReference<Envelope<Tag>>() {
@@ -36,15 +39,25 @@ public class InstagramTagService {
 		return tagEnvelope;
 	}
 
-	public Envelope<List<Media>> listTaggedMedia(String accessToken, String tagName) {
+	public Envelope<List<Media>> listTaggedMedia(String accessToken, String tagName, TagParameters parameters) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 		Preconditions.checkArgument(StringUtils.isNotBlank(tagName), "tagName");
 
 		Envelope<List<Media>> mediaListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_TAGS_NAME_MEDIA_RECENT, null, TypeReference.TYPE_MEDIA_LIST, tagName);
+						accessToken, PATH_TAGS_NAME_MEDIA_RECENT, parameters, TypeReference.TYPE_MEDIA_LIST, tagName);
 
 		return mediaListEnvelope;
+	}
+
+	public Envelope<List<Tag>> searchTags(String accessToken, SearchParameters parameters) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+		Preconditions.checkNotNull(parameters, "parameters");
+
+		Envelope<List<Tag>> tagsListEnvelope =
+				restClient.getObject(accessToken, PATH_TAGS_SEARCH, parameters, TypeReference.TYPE_TAGS_LIST);
+
+		return tagsListEnvelope;
 	}
 
 }

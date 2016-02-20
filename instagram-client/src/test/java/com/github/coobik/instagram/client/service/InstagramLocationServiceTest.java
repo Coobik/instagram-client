@@ -14,6 +14,7 @@ import com.github.coobik.instagram.client.config.InstagramClientTestHelper;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Location;
 import com.github.coobik.instagram.client.model.Media;
+import com.github.coobik.instagram.client.query.LocationParameters;
 
 @Test(enabled = true)
 @ContextConfiguration(classes = InstagramClientTestConfig.class)
@@ -48,11 +49,34 @@ public class InstagramLocationServiceTest extends AbstractTestNGSpringContextTes
 	public void testListLocationMedia() throws JsonProcessingException {
 		String accessToken = instagramClientTestConfig.getAccessToken();
 
-		Envelope<List<Media>> mediaListEnvelope = instagramLocationService.listMedia(accessToken, LOCATION_ID);
+		// TODO check with IdParameters
+		Envelope<List<Media>> mediaListEnvelope = instagramLocationService.listMedia(accessToken, LOCATION_ID, null);
 		Assert.assertNotNull(mediaListEnvelope);
 		Assert.assertNotNull(mediaListEnvelope.getData());
 
 		testHelper.printJson(mediaListEnvelope);
+	}
+
+	@Test(enabled = true)
+	public void testSearchLocations() throws JsonProcessingException {
+		double latitude = 46.4667;
+		double longitude = 30.7333;
+		int distanceMeters = 5000;
+
+		LocationParameters parameters = new LocationParameters(latitude, longitude, distanceMeters);
+		parameters.setCount(10);
+
+		Envelope<List<Location>> locationsListEnvelope =
+				instagramLocationService.searchLocations(instagramClientTestConfig.getAccessToken(), parameters);
+
+		Assert.assertNotNull(locationsListEnvelope);
+
+		List<Location> locations = locationsListEnvelope.getData();
+		Assert.assertNotNull(locations);
+
+		System.out.println("Locations: " + locations.size());
+
+		testHelper.printJson(locationsListEnvelope);
 	}
 
 }
