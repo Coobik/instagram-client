@@ -1,23 +1,28 @@
 package com.github.coobik.instagram.client.model;
 
+import org.joda.time.DateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.coobik.instagram.client.rest.InstagramTimeDeserializer;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Comment extends InstagramEntity {
 
 	@JsonProperty("created_time")
-	private String createdTime;
+	@JsonDeserialize(using = InstagramTimeDeserializer.class)
+	private DateTime createdTime;
 
 	private String text;
 
 	private User from;
 
-	public String getCreatedTime() {
+	public DateTime getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(String createdTime) {
+	public void setCreatedTime(DateTime createdTime) {
 		this.createdTime = createdTime;
 	}
 

@@ -27,9 +27,8 @@ public class InstagramObjectMapper extends ObjectMapper {
 		configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
 		configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false);
 		configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-
-		// TODO dates are in millis
-
+		configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, false);
 	}
 
 }

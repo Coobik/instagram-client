@@ -2,8 +2,12 @@ package com.github.coobik.instagram.client.model;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.coobik.instagram.client.rest.InstagramTimeDeserializer;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Media {
@@ -22,7 +26,8 @@ public class Media {
 	 * Time in seconds
 	 */
 	@JsonProperty("created_time")
-	private String createdTime;
+	@JsonDeserialize(using = InstagramTimeDeserializer.class)
+	private DateTime createdTime;
 
 	private User user;
 
@@ -91,11 +96,11 @@ public class Media {
 		this.filter = filter;
 	}
 
-	public String getCreatedTime() {
+	public DateTime getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(String createdTime) {
+	public void setCreatedTime(DateTime createdTime) {
 		this.createdTime = createdTime;
 	}
 
