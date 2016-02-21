@@ -9,6 +9,9 @@ public class MediaResources {
 	@JsonProperty("low_resolution")
 	private MediaResource lowResolution;
 
+	@JsonProperty("low_bandwidth")
+	private MediaResource lowBandwidth;
+
 	private MediaResource thumbnail;
 
 	@JsonProperty("standard_resolution")
@@ -36,6 +39,14 @@ public class MediaResources {
 
 	public void setStandardResolution(MediaResource standardResolution) {
 		this.standardResolution = standardResolution;
+	}
+
+	public MediaResource getLowBandwidth() {
+		return lowBandwidth;
+	}
+
+	public void setLowBandwidth(MediaResource lowBandwidth) {
+		this.lowBandwidth = lowBandwidth;
 	}
 
 }

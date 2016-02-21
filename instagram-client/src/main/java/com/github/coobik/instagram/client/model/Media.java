@@ -19,7 +19,7 @@ public class Media {
 	private String filter;
 
 	/**
-	 * Time in millis
+	 * Time in seconds
 	 */
 	@JsonProperty("created_time")
 	private String createdTime;
@@ -40,6 +40,8 @@ public class Media {
 
 	@JsonProperty("user_has_liked")
 	private Boolean userHasLiked;
+
+	private Attribution attribution;
 
 	public String getId() {
 		return id;
@@ -159,6 +161,14 @@ public class Media {
 
 	public void setUserHasLiked(Boolean userHasLiked) {
 		this.userHasLiked = userHasLiked;
+	}
+
+	public Attribution getAttribution() {
+		return attribution;
+	}
+
+	public void setAttribution(Attribution attribution) {
+		this.attribution = attribution;
 	}
 
 }
