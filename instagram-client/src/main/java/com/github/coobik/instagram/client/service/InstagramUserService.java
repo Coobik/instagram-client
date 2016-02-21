@@ -11,6 +11,7 @@ import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.Relationship;
 import com.github.coobik.instagram.client.model.User;
+import com.github.coobik.instagram.client.query.CursorParameters;
 import com.github.coobik.instagram.client.query.IdParameters;
 import com.github.coobik.instagram.client.query.LikeParameters;
 import com.github.coobik.instagram.client.query.SearchParameters;
@@ -78,32 +79,32 @@ public class InstagramUserService {
 		return mediaListEnvelope;
 	}
 
-	public Envelope<List<User>> listOwnerFollowedUsers(String accessToken) {
-		return listFollowedUsers(accessToken, USER_SELF);
+	public Envelope<List<User>> listOwnerFollowedUsers(String accessToken, CursorParameters parameters) {
+		return listFollowedUsers(accessToken, USER_SELF, parameters);
 	}
 
-	public Envelope<List<User>> listFollowedUsers(String accessToken, String userId) {
+	public Envelope<List<User>> listFollowedUsers(String accessToken, String userId, CursorParameters parameters) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 		Preconditions.checkArgument(StringUtils.isNotBlank(userId), "userId");
 
 		Envelope<List<User>> usersListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_USERS_ID_FOLLOWS, null, TypeReference.TYPE_USERS_LIST, userId);
+						accessToken, PATH_USERS_ID_FOLLOWS, parameters, TypeReference.TYPE_USERS_LIST, userId);
 
 		return usersListEnvelope;
 	}
 
-	public Envelope<List<User>> listOwnerFollowers(String accessToken) {
-		return listFollowers(accessToken, USER_SELF);
+	public Envelope<List<User>> listOwnerFollowers(String accessToken, CursorParameters parameters) {
+		return listFollowers(accessToken, USER_SELF, parameters);
 	}
 
-	public Envelope<List<User>> listFollowers(String accessToken, String userId) {
+	public Envelope<List<User>> listFollowers(String accessToken, String userId, CursorParameters parameters) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 		Preconditions.checkArgument(StringUtils.isNotBlank(userId), "userId");
 
 		Envelope<List<User>> usersListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_USERS_ID_FOLLOWED_BY, null, TypeReference.TYPE_USERS_LIST, userId);
+						accessToken, PATH_USERS_ID_FOLLOWED_BY, parameters, TypeReference.TYPE_USERS_LIST, userId);
 
 		return usersListEnvelope;
 	}
@@ -134,12 +135,12 @@ public class InstagramUserService {
 	 * @deprecated as of Nov 17, 2015 works until June 1, 2016
 	 */
 	@Deprecated
-	public Envelope<List<Media>> listOwnerFeed(String accessToken) {
+	public Envelope<List<Media>> listOwnerFeed(String accessToken, IdParameters parameters) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
 
 		Envelope<List<Media>> mediaListEnvelope =
 				restClient.getObject(
-						accessToken, PATH_USERS_ID_FEED, null, TypeReference.TYPE_MEDIA_LIST, USER_SELF);
+						accessToken, PATH_USERS_ID_FEED, parameters, TypeReference.TYPE_MEDIA_LIST, USER_SELF);
 
 		return mediaListEnvelope;
 	}

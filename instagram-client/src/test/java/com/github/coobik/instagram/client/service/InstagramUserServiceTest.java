@@ -80,7 +80,8 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true)
 	public void testListUserFollows() throws JsonProcessingException {
 		Envelope<List<User>> usersListEnvelope =
-				instagramUserService.listFollowedUsers(instagramClientTestConfig.getAccessToken(), INSTAGRAM_USER_ID);
+				instagramUserService.listFollowedUsers(
+						instagramClientTestConfig.getAccessToken(), INSTAGRAM_USER_ID, null);
 		Assert.assertNotNull(usersListEnvelope);
 
 		List<User> followedUsers = usersListEnvelope.getData();
@@ -94,7 +95,8 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true)
 	public void testListUserFollowers() throws JsonProcessingException {
 		Envelope<List<User>> usersListEnvelope =
-				instagramUserService.listFollowers(instagramClientTestConfig.getAccessToken(), INSTAGRAM_USER_ID);
+				instagramUserService.listFollowers(
+						instagramClientTestConfig.getAccessToken(), INSTAGRAM_USER_ID, null);
 		Assert.assertNotNull(usersListEnvelope);
 
 		List<User> followedUsers = usersListEnvelope.getData();
@@ -106,7 +108,7 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	private void checkFollowedUsers(String accessToken) throws JsonProcessingException {
-		Envelope<List<User>> usersListEnvelope = instagramUserService.listOwnerFollowedUsers(accessToken);
+		Envelope<List<User>> usersListEnvelope = instagramUserService.listOwnerFollowedUsers(accessToken, null);
 		Assert.assertNotNull(usersListEnvelope);
 		Assert.assertNotNull(usersListEnvelope.getData());
 
@@ -114,7 +116,7 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	private void checkFollowers(String accessToken) throws JsonProcessingException {
-		Envelope<List<User>> usersListEnvelope = instagramUserService.listOwnerFollowers(accessToken);
+		Envelope<List<User>> usersListEnvelope = instagramUserService.listOwnerFollowers(accessToken, null);
 		Assert.assertNotNull(usersListEnvelope);
 		Assert.assertNotNull(usersListEnvelope.getData());
 
@@ -149,8 +151,9 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Test(enabled = true)
 	public void testListOwnerFeed() throws JsonProcessingException {
+		// TODO check with parameters
 		Envelope<List<Media>> mediaListEnvelope =
-				instagramUserService.listOwnerFeed(instagramClientTestConfig.getAccessToken());
+				instagramUserService.listOwnerFeed(instagramClientTestConfig.getAccessToken(), null);
 		Assert.assertNotNull(mediaListEnvelope);
 
 		List<Media> media = mediaListEnvelope.getData();
