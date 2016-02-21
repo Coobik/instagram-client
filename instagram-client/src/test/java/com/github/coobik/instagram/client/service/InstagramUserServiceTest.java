@@ -147,4 +147,18 @@ public class InstagramUserServiceTest extends AbstractTestNGSpringContextTests {
 		testHelper.printJson(usersListEnvelope);
 	}
 
+	@Test(enabled = true)
+	public void testListOwnerFeed() throws JsonProcessingException {
+		Envelope<List<Media>> mediaListEnvelope =
+				instagramUserService.listOwnerFeed(instagramClientTestConfig.getAccessToken());
+		Assert.assertNotNull(mediaListEnvelope);
+
+		List<Media> media = mediaListEnvelope.getData();
+		Assert.assertNotNull(media);
+
+		System.out.println("loaded feed media: " + media.size());
+
+		testHelper.printJson(mediaListEnvelope);
+	}
+
 }

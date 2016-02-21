@@ -26,6 +26,8 @@ public class InstagramUserService {
 	private static final String PATH_USERS_ID_FOLLOWS = PATH_USERS_ID + "/follows";
 	private static final String PATH_USERS_ID_FOLLOWED_BY = PATH_USERS_ID + "/followed-by";
 	private static final String PATH_USERS_ID_RELATIONSHIP = PATH_USERS_ID + "/relationship";
+	private static final String PATH_USERS_ID_FEED = PATH_USERS_ID + "/feed";
+
 	private static final String PATH_USERS_SEARCH = "users/search";
 
 	private static final String USER_SELF = "self";
@@ -82,6 +84,7 @@ public class InstagramUserService {
 
 	public Envelope<List<User>> listFollowedUsers(String accessToken, String userId) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+		Preconditions.checkArgument(StringUtils.isNotBlank(userId), "userId");
 
 		Envelope<List<User>> usersListEnvelope =
 				restClient.getObject(
@@ -96,6 +99,7 @@ public class InstagramUserService {
 
 	public Envelope<List<User>> listFollowers(String accessToken, String userId) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+		Preconditions.checkArgument(StringUtils.isNotBlank(userId), "userId");
 
 		Envelope<List<User>> usersListEnvelope =
 				restClient.getObject(
@@ -124,6 +128,20 @@ public class InstagramUserService {
 						accessToken, PATH_USERS_SEARCH, parameters, TypeReference.TYPE_USERS_LIST);
 
 		return usersListEnvelope;
+	}
+
+	/**
+	 * @deprecated as of Nov 17, 2015 works until June 1, 2016
+	 */
+	@Deprecated
+	public Envelope<List<Media>> listOwnerFeed(String accessToken) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+
+		Envelope<List<Media>> mediaListEnvelope =
+				restClient.getObject(
+						accessToken, PATH_USERS_ID_FEED, null, TypeReference.TYPE_MEDIA_LIST, USER_SELF);
+
+		return mediaListEnvelope;
 	}
 
 }
