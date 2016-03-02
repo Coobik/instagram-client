@@ -22,6 +22,7 @@ public class InstagramMediaService {
 	private static final String PATH_MEDIA_COMMENTS = PATH_MEDIA_ID + "/comments";
 	private static final String PATH_MEDIA_LIKES = PATH_MEDIA_ID + "/likes";
 	private static final String PATH_MEDIA_SEARCH = "media/search";
+	private static final String PATH_MEDIA_SHORTCODE = "media/shortcode/{shortcode}";
 
 	private static final ParameterizedTypeReference<Envelope<Media>> TYPE_MEDIA =
 			new ParameterizedTypeReference<Envelope<Media>>() {
@@ -40,6 +41,16 @@ public class InstagramMediaService {
 
 		Envelope<Media> mediaEnvelope =
 				restClient.getObject(accessToken, PATH_MEDIA_ID, null, TYPE_MEDIA, mediaId);
+
+		return mediaEnvelope;
+	}
+
+	public Envelope<Media> getMediaByShortCode(String accessToken, String shortCode) {
+		Preconditions.checkArgument(StringUtils.isNotBlank(accessToken), "accessToken");
+		Preconditions.checkArgument(StringUtils.isNotBlank(shortCode), "shortCode");
+
+		Envelope<Media> mediaEnvelope =
+				restClient.getObject(accessToken, PATH_MEDIA_SHORTCODE, null, TYPE_MEDIA, shortCode);
 
 		return mediaEnvelope;
 	}

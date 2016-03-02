@@ -17,6 +17,7 @@ import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
 import com.github.coobik.instagram.client.model.User;
 import com.github.coobik.instagram.client.query.GeoParameters;
+import com.github.coobik.instagram.client.utils.MediaUrl;
 
 @Test(enabled = true)
 @ContextConfiguration(classes = InstagramClientTestConfig.class)
@@ -49,9 +50,21 @@ public class InstagramMediaServiceTest extends AbstractTestNGSpringContextTests 
 
 		String mediaId = mediaFromList.getId();
 
-		checkMedia(accessToken, mediaId);
+		Media media = checkMedia(accessToken, mediaId);
+		checkMediaByShortCode(accessToken, media);
+
 		checkMediaComments(accessToken, mediaId);
 		checkMediaLikes(accessToken, mediaId);
+	}
+
+	private void checkMediaByShortCode(String accessToken, Media media) {
+		String link = media.getLink();
+		String shortCode = MediaUrl.getShortCode(link);
+		Envelope<Media> mediaByShortCode = mediaService.getMediaByShortCode(accessToken, shortCode);
+		Assert.assertEquals(media.getId(), mediaByShortCode.getData().getId());
+
+		System.out.print("link: " + link);
+		System.out.println(" short code: " + shortCode);
 	}
 
 	private void checkMediaLikes(String accessToken, String mediaId) throws JsonProcessingException {
@@ -72,12 +85,16 @@ public class InstagramMediaServiceTest extends AbstractTestNGSpringContextTests 
 		testHelper.printJson(commentsListEnvelope);
 	}
 
-	private void checkMedia(String accessToken, String mediaId) throws JsonProcessingException {
+	private Media checkMedia(String accessToken, String mediaId) throws JsonProcessingException {
 		Envelope<Media> mediaEnvelope = mediaService.getMedia(accessToken, mediaId);
 		Assert.assertNotNull(mediaEnvelope);
-		Assert.assertNotNull(mediaEnvelope.getData());
+
+		Media media = mediaEnvelope.getData();
+		Assert.assertNotNull(media);
 
 		testHelper.printJson(mediaEnvelope);
+
+		return media;
 	}
 
 	private List<Media> listOwnerMedia(String accessToken) {

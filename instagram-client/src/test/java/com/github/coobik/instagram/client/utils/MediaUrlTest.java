@@ -6,6 +6,9 @@ import org.testng.annotations.Test;
 @Test(enabled = true)
 public class MediaUrlTest {
 
+	private static final String LINK = "https://www.instagram.com/p/BCbUMqBBQUJ";
+	private static final String SHORT_CODE = "BCbUMqBBQUJ";
+
 	private static final String URL_STANDARD =
 			"https://scontent-ams3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/12749994_803233789808942_902072097_n.jpg?ig_cache_key=MTE5MjMzMjA1MTgzNjM3MjI2NQ%3D%3D.2";
 
@@ -37,6 +40,18 @@ public class MediaUrlTest {
 		Assert.assertEquals(mediaUrl.getUrl(MediaSize.S1080, "0.09", "45", false), URL_SIZE_1080_SHARP009_E45);
 
 		Assert.assertEquals(mediaUrl.toString(), URL_ORIGINAL);
+	}
+
+	@Test(enabled = true)
+	public void testShortCode() {
+		String shortCode = MediaUrl.getShortCode(LINK);
+		Assert.assertEquals(shortCode, SHORT_CODE);
+
+		shortCode = MediaUrl.getShortCode(LINK + "/");
+		Assert.assertEquals(shortCode, SHORT_CODE);
+
+		shortCode = MediaUrl.getShortCode("");
+		Assert.assertEquals(shortCode, "");
 	}
 
 }

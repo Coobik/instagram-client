@@ -157,4 +157,30 @@ public class MediaUrl {
 		return getUrl();
 	}
 
+	public static String getShortCode(String link) {
+		if (StringUtils.isBlank(link)) {
+			return "";
+		}
+
+		int endIndex = link.length() - 1;
+		int lastSlashIndex = -1;
+		boolean hasTrailingSlash = (link.charAt(endIndex) == SLASH);
+
+		if (hasTrailingSlash) {
+			lastSlashIndex = link.lastIndexOf(SLASH, endIndex - 1);
+		} else {
+			lastSlashIndex = link.lastIndexOf(SLASH);
+		}
+
+		if (lastSlashIndex < 0) {
+			return "";
+		}
+
+		if (hasTrailingSlash) {
+			return link.substring(lastSlashIndex + 1, endIndex);
+		}
+
+		return link.substring(lastSlashIndex + 1);
+	}
+
 }
