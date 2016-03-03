@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>instagram-client</module>
+		<module>foursquare-client</module>
 	</modules>
 
 	<organization>
