@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.coobik.instagram.client.config.InstagramClientTestConfig;
-import com.github.coobik.instagram.client.config.InstagramClientTestHelper;
+import com.github.coobik.instagram.client.config.ClientTestHelper;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Location;
 import com.github.coobik.instagram.client.model.Media;
@@ -29,7 +29,7 @@ public class InstagramLocationServiceTest extends AbstractTestNGSpringContextTes
 	private InstagramClientTestConfig instagramClientTestConfig;
 
 	@Autowired
-	private InstagramClientTestHelper testHelper;
+	private ClientTestHelper testHelper;
 
 	@Autowired
 	private InstagramLocationService instagramLocationService;

@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.coobik.instagram.client.config.InstagramClientTestConfig;
-import com.github.coobik.instagram.client.config.InstagramClientTestHelper;
+import com.github.coobik.instagram.client.config.ClientTestHelper;
 import com.github.coobik.instagram.client.model.Comment;
 import com.github.coobik.instagram.client.model.Envelope;
 import com.github.coobik.instagram.client.model.Media;
@@ -27,7 +27,7 @@ public class InstagramMediaServiceTest extends AbstractTestNGSpringContextTests 
 	private InstagramClientTestConfig instagramClientTestConfig;
 
 	@Autowired
-	private InstagramClientTestHelper testHelper;
+	private ClientTestHelper testHelper;
 
 	@Autowired
 	private InstagramMediaService mediaService;

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 
 @Component
-public class InstagramClientTestHelper {
+public class ClientTestHelper {
 
 	@Autowired
 	private ObjectMapper objectMapper;
