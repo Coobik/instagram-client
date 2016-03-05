@@ -1,4 +1,4 @@
-package com.github.coobik.instagram.client.query;
+package com.github.coobik.api.client.query;
 
 import java.util.Map;
 

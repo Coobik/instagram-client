@@ -1,4 +1,4 @@
-package com.github.coobik.instagram.client.rest;
+package com.github.coobik.api.client.rest;
 
 import org.springframework.stereotype.Component;
 
@@ -9,11 +9,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 @Component
-public class InstagramObjectMapper extends ObjectMapper {
+public class CustomObjectMapper extends ObjectMapper {
 
 	private static final long serialVersionUID = -1100087492544093257L;
 
-	public InstagramObjectMapper() {
+	public CustomObjectMapper() {
 		registerModule(new JodaModule());
 
 		setSerializationInclusion(Include.NON_NULL);

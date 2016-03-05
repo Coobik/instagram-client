@@ -1,4 +1,4 @@
-package com.github.coobik.instagram.client.rest;
+package com.github.coobik.api.client.rest;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
  * Allow all SSL certificates
  */
 @Component
-public class InstagramClientHttpRequestFactory extends SimpleClientHttpRequestFactory {
+public class CustomClientHttpRequestFactory extends SimpleClientHttpRequestFactory {
 
-	private final HostnameVerifier hostnameVerifier = new InstagramHostnameVerifier();
+	private final HostnameVerifier hostnameVerifier = new CustomHostnameVerifier();
 
-	public InstagramClientHttpRequestFactory() {
+	public CustomClientHttpRequestFactory() {
 		setBufferRequestBody(false);
 	}
 
@@ -32,7 +32,7 @@ public class InstagramClientHttpRequestFactory extends SimpleClientHttpRequestFa
 		super.prepareConnection(connection, httpMethod);
 	}
 
-	private static class InstagramHostnameVerifier implements HostnameVerifier {
+	private static class CustomHostnameVerifier implements HostnameVerifier {
 
 		@Override
 		public boolean verify(String hostname, SSLSession session) {

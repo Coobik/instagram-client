@@ -9,7 +9,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-@ComponentScan("com.github.coobik.instagram.client")
+@ComponentScan({ "com.github.coobik.api.client.rest", "com.github.coobik.instagram.client" })
 public class InstagramClientTestConfig {
 
 	@Value("${client_id}")

@@ -14,8 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.coobik.api.client.query.QueryParameters;
 import com.github.coobik.instagram.client.model.Envelope;
-import com.github.coobik.instagram.client.query.QueryParameters;
 
 @Component
 public class InstagramRestClient {

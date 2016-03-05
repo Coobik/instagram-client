@@ -1,5 +1,7 @@
 package com.github.coobik.instagram.client.query;
 
+import com.github.coobik.api.client.query.QueryParameters;
+
 public class ParametersWithCount extends QueryParameters {
 
 	public ParametersWithCount() {

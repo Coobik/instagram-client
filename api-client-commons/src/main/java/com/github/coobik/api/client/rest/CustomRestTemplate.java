@@ -1,4 +1,4 @@
-package com.github.coobik.instagram.client.rest;
+package com.github.coobik.api.client.rest;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 @Component
-public class InstagramRestTemplate extends RestTemplate {
+public class CustomRestTemplate extends RestTemplate {
 
 	@Autowired
 	private ObjectMapper objectMapper;
